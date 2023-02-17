@@ -28,6 +28,13 @@ const updateLocals = (req, res, next) => {
     res.locals.isUserActive = false;
   } else {
     res.locals.isUserActive = true;
+
+    // If user is an organiser, show links to create and edit events
+    if (req.session.activeUser.role === "organiser") {
+      res.locals.isUserOrganiser = true;
+    } else {
+      res.locals.isUserOrganiser = false;
+    }
   }
   next(); // Crea la variable loca y continua con las rutas
 };

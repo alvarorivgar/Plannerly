@@ -16,8 +16,9 @@ router.get("/all", async (req, res, next) => {
 // GET "events/:id" => renderizar event.hbs con tarjeta de un solo evento
 router.get("/:id/details", async (req, res, next) => {
   try {
-    const singleEvent = Event.findById(req.params.id);
-    res.render("events/event.hbs");
+    const singleEvent = await Event.findById(req.params.id).populate("creator");
+    console.log(singleEvent);
+    res.render("events/event.hbs", singleEvent);
   } catch (error) {
     next(error);
   }

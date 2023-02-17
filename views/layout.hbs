@@ -12,11 +12,20 @@
    <body>
       <nav>
          <a href="/">Home</a>
+         <a href="/events/all">Events</a>
+         {{#if isUserActive}}
+            {{#if isUserOrganiser}}
+               <a href="/events/create">Create an event</a>
+               <a href="/events/edit">Edit an event</a>
+            {{/if}}
+         <a href="/auth/logout">Log out</a>
+         {{else}}
          <a href="/auth/signup">Sign up</a>
          <a href="/auth/login">Log in</a>
-         <a href="/events/all">Events</a>
-         <a href="/events/create">Create an event</a>
-         <a href="/events/edit">Edit an event</a>
+         {{/if}}
+     
+         
+        
       </nav>
       {{{body}}}
 
