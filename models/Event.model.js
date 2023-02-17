@@ -11,7 +11,7 @@ const eventSchema = new Schema({
     type: Date,
     required: true,
   },
-  place: {
+  location: {
     type: String,
     required: true,
     trim: true,
@@ -20,14 +20,16 @@ const eventSchema = new Schema({
     type: Number,
     required: true,
   },
-  creator: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
+  description: {
+    type: String,
+    required: true,
+  },
+  creator: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 const Event = model("Event", eventSchema);
 
-module.exports = User;
+module.exports = Event;
