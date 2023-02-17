@@ -1,4 +1,5 @@
 const express = require("express");
+const { isOrganiser, isLoggedIn } = require("../middlewares/auth-middlewares");
 const router = express.Router();
 const Event = require("../models/Event.model");
 
@@ -23,12 +24,12 @@ router.get("/:id/details", async (req, res, next) => {
 });
 
 // GET "events/create" => renderizar create-form.hbs para crear evento < ORGANISER ONLY
-router.get("/create", (req, res, next) => {
+router.get("/create", isLoggedIn, isOrganiser, (req, res, next) => {
   res.render("events/create-form.hbs");
 });
 
 // POST "events/create" => ruta para crear evento y redireccionar < ORGANISER ONLY
-router.post("/create", async (req, res, next) => {
+router.post("/create", isLoggedIn, isOrganiser, async (req, res, next) => {
   try {
     const { name, price, date, location, description, slots } = req.body;
     await Event.create({
@@ -47,12 +48,12 @@ router.post("/create", async (req, res, next) => {
 });
 
 // GET "events/:id/edit" => renderizar edit-form.hbs para editar evento > ORGANISER ONLY !!!! DELETE USER FROM ATTENDANT PENDING
-router.get("/:id/edit", (req, res, next) => {
+router.get("/:id/edit", isLoggedIn, isOrganiser, (req, res, next) => {
   res.render("events/edit-form.hbs");
 });
 
 // POST "events/:id/edit" => ruta para editar info de evento y rediceccionar < ORGANISER ONLY
-router.post("/:id/edit", async (req, res, next) => {
+router.post("/:id/edit", isLoggedIn, isOrganiser, async (req, res, next) => {
   try {
     await Event.findByIdAndUpdate(req.params.id, req.body);
     res.redirect(`/events/${id}`);
@@ -62,7 +63,7 @@ router.post("/:id/edit", async (req, res, next) => {
 });
 
 // POST "events/:id/delete" => ruta para borrar evento y redireccionar < ORGANISER ONLY
-router.post("/:id/delete", async (req, res, next) => {
+router.post("/:id/delete", isLoggedIn, isOrganiser, async (req, res, next) => {
   try {
     await Event.findByIdAndDelete(req.params.id);
     res.redirect("/events/all");
