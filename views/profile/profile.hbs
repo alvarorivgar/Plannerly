@@ -1,0 +1,44 @@
+<div>
+
+    <h1>Profile</h1>
+
+    <h3>{{currentUser.username}}</h3>
+
+    <p>{{currentUser.email}}</p>
+
+    {{#unless isUserOrganiser}}
+    <p>Attended events: 
+        <ul>
+        {{#each currentUser.attendedEvents}}
+        <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
+        {{/each}}
+        </ul>
+    </p>
+    <p>Favourite events: 
+        <ul>
+        {{#each favEvents.favouriteEvents}}
+        <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
+        {{/each}}
+        </ul>
+    </p>    
+    {{/unless}}
+
+    {{#if isUserOrganiser}}
+    <p>My events: 
+        <ul>
+        {{#each createdEvents}}
+        <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
+        {{/each}}
+        </ul>
+    </p>
+
+    {{/if}}
+
+
+
+
+
+
+
+
+</div>

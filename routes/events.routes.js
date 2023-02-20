@@ -2,6 +2,7 @@ const express = require("express");
 const { isOrganiser, isLoggedIn } = require("../middlewares/auth-middlewares");
 const router = express.Router();
 const Event = require("../models/Event.model");
+const User = require("../models/User.model");
 
 // GET "events/all" => renderizar all-events.hbs con la lista de todos los eventos
 router.get("/all", async (req, res, next) => {
@@ -57,7 +58,7 @@ router.get("/:id/edit", isLoggedIn, isOrganiser, (req, res, next) => {
 router.post("/:id/edit", isLoggedIn, isOrganiser, async (req, res, next) => {
   try {
     await Event.findByIdAndUpdate(req.params.id, req.body);
-    res.redirect(`/events/${id}`);
+    res.redirect(`/events/${id}/details`);
   } catch (error) {
     next(error);
   }
@@ -68,6 +69,19 @@ router.post("/:id/delete", isLoggedIn, isOrganiser, async (req, res, next) => {
   try {
     await Event.findByIdAndDelete(req.params.id);
     res.redirect("/events/all");
+  } catch (error) {
+    next(error);
+  }
+});
+
+//POST "events/:id/fav"
+
+router.post("/:id/fav", async (req, res, next) => {
+  try {
+    const favEvent = await Event.findById(req.params.id);
+    await User.findByIdAndUpdate(req.session.activeUser, 
+      {$push: { favouriteEvents: favEvent }})
+    res.redirect(`/events/${req.params.id}/details`)
   } catch (error) {
     next(error);
   }

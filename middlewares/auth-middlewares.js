@@ -30,7 +30,7 @@ const updateLocals = (req, res, next) => {
     res.locals.isUserActive = true;
 
     // If user is an organiser, show links to create and edit events
-    if (req.session.activeUser.role === "organiser") {
+    if (req.session.activeUser.role == "organiser") {
       res.locals.isUserOrganiser = true;
     } else {
       res.locals.isUserOrganiser = false;
