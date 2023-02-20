@@ -8,7 +8,7 @@ router.get("/signup", (req, res, next) => {
 });
 
 router.post("/signup", async (req, res, next) => {
-  const { username, email, password1, password2,  role } = req.body;
+  const { username, email, password1, password2, role } = req.body;
 
   // All fields are filled
   if (username === "" || email === "" || password1 === "" || password2 === "") {
@@ -20,10 +20,10 @@ router.post("/signup", async (req, res, next) => {
 
   // Passwords match
 
-  if(password1 !== password2){
+  if (password1 !== password2) {
     res.render("auth/signup-form.hbs", {
-        errorMessage: "Passwords do not match",
-      });
+      errorMessage: "Passwords do not match",
+    });
   }
 
   // Password requirements are met
@@ -74,54 +74,54 @@ router.post("/signup", async (req, res, next) => {
 });
 
 router.get("/login", (req, res, next) => {
-    res.render("auth/login-form.hbs")
-})
+  res.render("auth/login-form.hbs");
+});
 
 router.post("/login", async (req, res, next) => {
-    const {email, password} = req.body;
+  const { email, password } = req.body;
 
-    //All fields are filled
-    if (email === "" || password === "") {
-        res.render("auth/login-form.hbs", {
-          errorMessage: "All fields are required",
-        });
-      }
-    
-    // Validate user
-    try {
-        const foundUser = await User.findOne({ email: email });
-        if (foundUser === null) {
-          res.render("auth/login-form.hbs", {
-            errorMessage: "User does not exist.",
-          });
-          return;
-        }
-        // Verify password
-        const isPasswordCorrect = await bcrypt.compare(
-          password,
-          foundUser.password
-        );
-        if (isPasswordCorrect === false) {
-          res.render("auth/login-form.hbs", {
-            errorMessage: "Incorrect password!",
-          });
-          return;
-        }
-    
-        // Create session
-        req.session.activeUser = foundUser;
-        req.session.save(() => {
-          res.redirect("/profile"); 
-        });
-      } catch (error) {
-        next(error);
-      }
-})
+  //All fields are filled
+  if (email === "" || password === "") {
+    res.render("auth/login-form.hbs", {
+      errorMessage: "All fields are required",
+    });
+  }
+
+  // Validate user
+  try {
+    const foundUser = await User.findOne({ email: email });
+    if (foundUser === null) {
+      res.render("auth/login-form.hbs", {
+        errorMessage: "User does not exist.",
+      });
+      return;
+    }
+    // Verify password
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      foundUser.password
+    );
+    if (isPasswordCorrect === false) {
+      res.render("auth/login-form.hbs", {
+        errorMessage: "Incorrect password!",
+      });
+      return;
+    }
+
+    // Create session
+    req.session.activeUser = foundUser;
+    req.session.save(() => {
+      res.redirect("/profile");
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.get("/logout", (req, res, next) => {
   req.session.destroy(() => {
-      res.redirect("/")
-  })
-})
+    res.redirect("/");
+  });
+});
 
 module.exports = router;

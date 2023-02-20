@@ -9,7 +9,8 @@ router.use(updateLocals)
 
 /* GET home page => renderizar PLANNERLY y boton de acceder */
 router.get("/", (req, res, next) => {
-  res.render("index");
+
+  res.render("index", req.session.activeUser);
 });
 
 // Authentication
