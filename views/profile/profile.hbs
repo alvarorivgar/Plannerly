@@ -1,15 +1,11 @@
 <div>
 
-    <h1>Profile</h1>
-
-    <h3>{{currentUser.username}}</h3>
-
-    <p>{{currentUser.email}}</p>
+    <h1>{{foundUser.username}}</h1>
 
     {{#unless isUserOrganiser}}
     <p>Attended events: 
         <ul>
-        {{#each currentUser.attendedEvents}}
+        {{#each attendedEvents.attendedEvents}}
         <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
         {{/each}}
         </ul>
@@ -24,10 +20,16 @@
     {{/unless}}
 
     {{#if isUserOrganiser}}
-    <p>My events: 
+    <p>Organised events: 
         <ul>
         {{#each createdEvents}}
         <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
+        <br>
+        {{#if isMyEvent}}
+        <form action="/events/{{this._id}}/delete" method="post">
+        <button>Delete</button>
+        </form>
+        {{/if}}
         {{/each}}
         </ul>
     </p>

@@ -4,16 +4,21 @@ const Event = require("../models/Event.model");
 const User = require("../models/User.model");
 const router = express.Router();
 
-router.get("/", async (req, res, next) => {
-  const { _id } = req.session.activeUser;
+router.get("/:id", async (req, res, next) => {
+  const { id } = req.params;
   try {
-    const createdEvents = await Event.find({ creator: _id });
-    const favEvents = await User.findById(_id).select({ favouriteEvents: 1 }).populate("favouriteEvents");
-    const attendedEvents = await User.findById(_id).select({
-      attendedEvents: 1,
-    });
+    const foundUser = await User.findById(id);
+    const createdEvents = await Event.find({ creator: id });
+    const favEvents = await User.findById(id)
+      .select({ favouriteEvents: 1 })
+      .populate("favouriteEvents");
+    const attendedEvents = await User.findById(id)
+      .select({
+        attendedEvents: 1,
+      })
+      .populate("attendedEvents");
     res.render("profile/profile.hbs", {
-      currentUser: req.session.activeUser,
+      foundUser,
       createdEvents,
       favEvents,
       attendedEvents,

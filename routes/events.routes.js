@@ -14,12 +14,21 @@ router.get("/all", async (req, res, next) => {
   }
 });
 
-// GET "events/:id" => renderizar event.hbs con tarjeta de un solo evento
+// GET "events/:id/details" => renderizar event.hbs con tarjeta de un solo evento
 router.get("/:id/details", async (req, res, next) => {
   try {
     const singleEvent = await Event.findById(req.params.id).populate("creator");
-    console.log(singleEvent);
-    res.render("events/event.hbs", singleEvent);
+    let isMyEvent;
+    if (req.session.activeUser.id === singleEvent.creator) {
+      isMyEvent = true;
+    } else {
+      isMyEvent = false;
+    }
+    const attendingUsers = await User.find({
+      attendedEvents: { _id: req.params.id },
+    }).select();
+    console.log(attendingUsers);
+    res.render("events/event.hbs", { singleEvent, attendingUsers, isMyEvent });
   } catch (error) {
     next(error);
   }
@@ -75,13 +84,39 @@ router.post("/:id/delete", isLoggedIn, isOrganiser, async (req, res, next) => {
 });
 
 //POST "events/:id/fav"
-
 router.post("/:id/fav", async (req, res, next) => {
   try {
     const favEvent = await Event.findById(req.params.id);
-    await User.findByIdAndUpdate(req.session.activeUser, 
-      {$push: { favouriteEvents: favEvent }})
-    res.redirect(`/events/${req.params.id}/details`)
+    await User.findByIdAndUpdate(req.session.activeUser, {
+      $push: { favouriteEvents: favEvent },
+    });
+    res.redirect(`/events/${req.params.id}/details`);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//POST "events/:id/attend"
+router.post("/:id/attend", async (req, res, next) => {
+  try {
+    const attendEvent = await Event.findById(req.params.id);
+    await User.findByIdAndUpdate(req.session.activeUser, {
+      $push: { attendedEvents: attendEvent },
+    });
+    res.redirect(`/events/${req.params.id}/details`);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//POST "events/:id/kick-user"
+router.post("/:id/kick-user/:userId", async (req, res, next) => {
+  try {
+    // const event = Event.findById(req.params.id);
+    await User.findByIdAndUpdate(req.params.userId, {
+      $pullAll: { attendedEvents: [req.params.id] },
+    });
+    res.redirect(`/events/${req.params.id}/details`);
   } catch (error) {
     next(error);
   }

@@ -1,12 +1,34 @@
 <div>
-  <h1>{{name}}</h1>
-  <p><span>Price: {{price}}€</span> <span>Location: {{location}}</span> <span>Date: {{date}}</span> <span>Available slots: {{slots}}</span></p>
-  <p>{{description}}</p>
-  <p>Organiser: {{creator.username}}</p>
+  <h1>{{singleEvent.name}}</h1>
+  <p><span>Price: {{singleEvent.price}}€</span> <span>Location: {{singleEvent.location}}</span> <span>Date: {{singleEvent.date}}</span> <span>Available slots: {{singleEvent.slots}}</span></p>
+  <p>{{singleEvent.description}}</p>
+  <p>Organiser: <a href="/profile/{{singleEvent.creator._id}}">{{singleEvent.creator.username}}</a></p>
 
-  <form action="/events/{{_id}}/fav" method="post">
+{{!-- USER --}}
   {{#unless isUserOrganiser}}
+  <form action="/events/{{singleEvent._id}}/fav" method="post">
     <button>Fav</button>
-  {{/unless}} 
   </form>
+  {{/unless}} 
+
+  {{#unless isUserOrganiser}}
+    <form action="/events/{{singleEvent._id}}/attend" method="post">
+    <button>Attend</button>
+  </form>
+  {{/unless}} 
+
+{{!-- ORGANISER --}}
+{{#if isUserOrganiser}}
+<ul>
+  {{#if isMyEvent}}
+  {{#each attendingUsers}}
+<form action="/events/{{../singleEvent._id}}/kick-user/{{this._id}}" method="post">
+  <li>{{this.username}}</li>
+<button>Delete user</button>
+</form>
+  {{/each}}
+</ul>
+{{/if}}
+{{/if}}
+
 </div>
