@@ -4,6 +4,36 @@ const Event = require("../models/Event.model");
 const User = require("../models/User.model");
 const router = express.Router();
 
+router.get("/my-profile", async (req, res, next) => {
+  try {
+    const currentUser = await User.findById(req.session.activeUser._id);
+    res.render("profile/my-profile.hbs", {
+      currentUser,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/my-profile/edit", async (req, res, next) => {
+  try {
+    const userToUpdate = await User.findById(req.session.activeUser._id);
+    res.render("profile/edit-form.hbs", userToUpdate);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//EDIT
+router.post("/my-profile/edit", async (req, res, next) => {
+  try {
+    await User.findByIdAndUpdate(req.session.activeUser._id, req.body);
+    res.redirect("profile/my-profile.hbs");
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -35,41 +65,6 @@ router.get("/:id", async (req, res, next) => {
       favEvents,
       attendedEvents,
     });
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.get("/my-profile", async (req, res, next) => {
-  try {
-    const currentUser = await User.findById(
-      req.session.activeUser.id.toString()
-    );
-    res.render("profile/my-profile.hbs", currentUser);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.get("/my-profile/edit", async (req, res, next) => {
-  try {
-    const userToUpdate = await User.findById(
-      req.session.activeUser.id.toString()
-    );
-    res.render("profile/edit-form.hbs", userToUpdate);
-  } catch (error) {
-    next(error);
-  }
-});
-
-//EDIT
-router.post("/my-profile/edit", async (req, res, next) => {
-  try {
-    await User.findByIdAndUpdate(
-      req.session.activeUser._id.toString(),
-      req.body
-    );
-    res.redirect("profile/my-profile.hbs");
   } catch (error) {
     next(error);
   }
