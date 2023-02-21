@@ -28,7 +28,11 @@ const eventSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  image: String,
+  image: {
+    type: String,
+    default:
+      "https://res.cloudinary.com/dkz1jslyi/image/upload/v1676994763/Plannerly/360_F_434728286_OWQQvAFoXZLdGHlObozsolNeuSxhpr84_nktbuk.jpg",
+  },
 });
 
 const Event = model("Event", eventSchema);
