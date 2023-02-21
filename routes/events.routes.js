@@ -29,16 +29,15 @@ router.get("/:id/details", async (req, res, next) => {
       singleEvent.isMyEvent = false;
     }
 
+    const attendingUsers = await User.find({
+      attendedEvents: { _id: req.params.id },
+    }).select();
+    const usersGoing = singleEvent.slots - attendingUsers.length;
     if (attendingUsers.length === singleEvent.slots) {
       singleEvent.isFull = true;
     } else {
       singleEvent.isFull = false;
     }
-
-    const attendingUsers = await User.find({
-      attendedEvents: { _id: req.params.id },
-    }).select();
-    const usersGoing = singleEvent.slots - attendingUsers.length;
     res.render("events/event.hbs", {
       singleEvent,
       attendingUsers,
@@ -61,6 +60,10 @@ router.post(
   isOrganiser,
   uploader.single("image"),
   async (req, res, next) => {
+    let image;
+    if (req.file !== undefined) {
+      image = req.file.path;
+    }
     try {
       const { name, price, date, location, description, slots } = req.body;
 
@@ -72,7 +75,7 @@ router.post(
         slots,
         description,
         creator: req.session.activeUser._id,
-        image: req.file.path,
+        image,
       });
       res.redirect("/events/all");
     } catch (error) {

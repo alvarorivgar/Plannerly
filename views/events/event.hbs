@@ -13,12 +13,12 @@
   {{/unless}} 
 
   {{#unless isUserOrganiser}}
-    {{#unless isFull}}
+    {{#unless singleEvent.isFull}}
     <form action="/events/{{singleEvent._id}}/attend" method="post">
       <button>Attend</button>
     </form>
     {{/unless}}
-    {{#if isFull}}
+    {{#if singleEvent.isFull}}
       <p>Event full</p>
     {{/if}}
   {{/unless}} 
