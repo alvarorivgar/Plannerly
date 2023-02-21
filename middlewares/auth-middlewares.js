@@ -36,7 +36,7 @@ const updateLocals = (req, res, next) => {
       res.locals.isUserOrganiser = false;
     }
   }
-  next(); // Crea la variable local y continua con las rutas
+  next(); 
 };
 
 module.exports = {

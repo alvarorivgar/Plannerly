@@ -1,4 +1,5 @@
 <div>
+  <img src="{{singleEvent.image}}" alt="event image" height="250px">
   <h1>{{singleEvent.name}}</h1>
   <p><span>Price: {{singleEvent.price}}€</span> <span>Location: {{singleEvent.location}}</span> <span>Date: {{singleEvent.date}}</span> <span>Available slots: {{singleEvent.slots}}</span></p>
   <p>{{singleEvent.description}}</p>
@@ -19,6 +20,7 @@
 
 {{!-- ORGANISER --}}
 {{#if isUserOrganiser}}
+<p>Attendants:</p>
 <ul>
   {{#if isMyEvent}}
   {{#each attendingUsers}}

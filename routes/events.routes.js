@@ -3,6 +3,7 @@ const { isOrganiser, isLoggedIn } = require("../middlewares/auth-middlewares");
 const router = express.Router();
 const Event = require("../models/Event.model");
 const User = require("../models/User.model");
+const uploader = require("../middlewares/cloudinary")
 
 // GET "events/all" => renderizar all-events.hbs con la lista de todos los eventos
 router.get("/all", async (req, res, next) => {
@@ -40,9 +41,10 @@ router.get("/create", isLoggedIn, isOrganiser, (req, res, next) => {
 });
 
 // POST "events/create" => ruta para crear evento y redireccionar < ORGANISER ONLY
-router.post("/create", isLoggedIn, isOrganiser, async (req, res, next) => {
+router.post("/create", isLoggedIn, isOrganiser,  uploader.single("image"), async (req, res, next) => {
   try {
     const { name, price, date, location, description, slots } = req.body;
+    
     await Event.create({
       name,
       price,
@@ -51,6 +53,7 @@ router.post("/create", isLoggedIn, isOrganiser, async (req, res, next) => {
       slots,
       description,
       creator: req.session.activeUser._id,
+      image: req.file.path 
     });
     res.redirect("/events/all");
   } catch (error) {

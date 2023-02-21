@@ -19,13 +19,18 @@
     </p>    
     {{/unless}}
 
-    
+    {{#if isUserOrganiser}}
     <p>Organised events: 
         <ul>
         {{#each createdEvents}}
         <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
         <br>
         {{#if isMyEvent}}
+        {{!-- EDIT EVENT --}}
+        <form action="/events/{{this._id}}/edit" method="post">
+        <button>Edit</button>
+        </form>
+        {{!-- DELETE EVENT --}}
         <form action="/events/{{this._id}}/delete" method="post">
         <button>Delete</button>
         </form>
@@ -33,6 +38,7 @@
         {{/each}}
         </ul>
     </p>
+    {{/if}}
 
 
 

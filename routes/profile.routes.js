@@ -17,6 +17,15 @@ router.get("/:id", async (req, res, next) => {
         attendedEvents: 1,
       })
       .populate("attendedEvents");
+    let isMyEvent;
+    if (req.session.activeUser._id === createdEvents[0].creator._id.toString()) {
+      isMyEvent = true;
+    } else {
+      isMyEvent = false;
+    }
+    console.log("ID: " + req.session.activeUser._id);
+    console.log("ID2: " + createdEvents[0].creator._id.toString());
+    console.log(isMyEvent);
     res.render("profile/profile.hbs", {
       foundUser,
       createdEvents,
