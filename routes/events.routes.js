@@ -19,12 +19,13 @@ router.get("/all", async (req, res, next) => {
 router.get("/:id/details", async (req, res, next) => {
   try {
     const singleEvent = await Event.findById(req.params.id).populate("creator");
-    let isMyEvent;
-    if (req.session.activeUser.id === singleEvent.creator) {
-      isMyEvent = true;
+  
+    if (req.session.activeUser._id === singleEvent.creator._id.toString()) {
+      singleEvent.isMyEvent = true;
     } else {
-      isMyEvent = false;
+      singleEvent.isMyEvent = false;
     }
+    
     const attendingUsers = await User.find({
       attendedEvents: { _id: req.params.id },
     }).select();
