@@ -2,3 +2,5 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Plannerly JS imported successfully!");
 });
+
+const slotsDOM = document.querySelector("#slots");

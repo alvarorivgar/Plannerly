@@ -19,18 +19,31 @@ router.get("/all", async (req, res, next) => {
 router.get("/:id/details", async (req, res, next) => {
   try {
     const singleEvent = await Event.findById(req.params.id).populate("creator");
-  
-    if (req.session.activeUser._id === singleEvent.creator._id.toString()) {
+
+    if (
+      req.session.activeUser._id.toString() ===
+      singleEvent.creator._id.toString()
+    ) {
       singleEvent.isMyEvent = true;
     } else {
       singleEvent.isMyEvent = false;
     }
-    
+
+    if (attendingUsers.length === singleEvent.slots) {
+      singleEvent.isFull = true;
+    } else {
+      singleEvent.isFull = false;
+    }
+
     const attendingUsers = await User.find({
       attendedEvents: { _id: req.params.id },
     }).select();
-    console.log(attendingUsers);
-    res.render("events/event.hbs", { singleEvent, attendingUsers, isMyEvent });
+    const usersGoing = singleEvent.slots - attendingUsers.length;
+    res.render("events/event.hbs", {
+      singleEvent,
+      attendingUsers,
+      usersGoing,
+    });
   } catch (error) {
     next(error);
   }
