@@ -3,7 +3,7 @@ const { isOrganiser, isLoggedIn } = require("../middlewares/auth-middlewares");
 const router = express.Router();
 const Event = require("../models/Event.model");
 const User = require("../models/User.model");
-const uploader = require("../middlewares/cloudinary")
+const uploader = require("../middlewares/cloudinary");
 
 // GET "events/all" => renderizar all-events.hbs con la lista de todos los eventos
 router.get("/all", async (req, res, next) => {
@@ -41,40 +41,57 @@ router.get("/create", isLoggedIn, isOrganiser, (req, res, next) => {
 });
 
 // POST "events/create" => ruta para crear evento y redireccionar < ORGANISER ONLY
-router.post("/create", isLoggedIn, isOrganiser,  uploader.single("image"), async (req, res, next) => {
+router.post(
+  "/create",
+  isLoggedIn,
+  isOrganiser,
+  uploader.single("image"),
+  async (req, res, next) => {
+    try {
+      const { name, price, date, location, description, slots } = req.body;
+
+      await Event.create({
+        name,
+        price,
+        date,
+        location,
+        slots,
+        description,
+        creator: req.session.activeUser._id,
+        image: req.file.path,
+      });
+      res.redirect("/events/all");
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+// GET "events/:id/edit" => renderizar edit-form.hbs para editar evento > ORGANISER ONLY !!!! DELETE USER FROM ATTENDANT PENDING
+router.get("/:id/edit", isLoggedIn, isOrganiser, async (req, res, next) => {
   try {
-    const { name, price, date, location, description, slots } = req.body;
-    
-    await Event.create({
-      name,
-      price,
-      date,
-      location,
-      slots,
-      description,
-      creator: req.session.activeUser._id,
-      image: req.file.path 
-    });
-    res.redirect("/events/all");
+    const eventToEdit = await Event.findByIdAndUpdate(req.params.id, req.body);
+    res.render("events/edit-form.hbs", eventToEdit);
   } catch (error) {
     next(error);
   }
-});
-
-// GET "events/:id/edit" => renderizar edit-form.hbs para editar evento > ORGANISER ONLY !!!! DELETE USER FROM ATTENDANT PENDING
-router.get("/:id/edit", isLoggedIn, isOrganiser, (req, res, next) => {
-  res.render("events/edit-form.hbs");
 });
 
 // POST "events/:id/edit" => ruta para editar info de evento y rediceccionar < ORGANISER ONLY
-router.post("/:id/edit", isLoggedIn, isOrganiser, async (req, res, next) => {
-  try {
-    await Event.findByIdAndUpdate(req.params.id, req.body);
-    res.redirect(`/events/${id}/details`);
-  } catch (error) {
-    next(error);
+router.post(
+  "/:id/edit",
+  isLoggedIn,
+  isOrganiser,
+  uploader.single("image"),
+  async (req, res, next) => {
+    try {
+      await Event.findByIdAndUpdate(req.params.id, req.body);
+      res.redirect(`/events/${req.params.id}/details`);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 // POST "events/:id/delete" => ruta para borrar evento y redireccionar < ORGANISER ONLY
 router.post("/:id/delete", isLoggedIn, isOrganiser, async (req, res, next) => {
