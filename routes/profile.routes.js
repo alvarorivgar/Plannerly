@@ -2,11 +2,13 @@ const express = require("express");
 const { isOrganiser, isLoggedIn } = require("../middlewares/auth-middlewares");
 const Event = require("../models/Event.model");
 const User = require("../models/User.model");
+const Comment = require("../models/Comment.model");
 const router = express.Router();
 const uploader = require("../middlewares/cloudinary");
 
+//RENDER PRIVATE PROFILE
 router.get("/my-profile", async (req, res, next) => {
-  const {_id} = req.session.activeUser
+  const { _id } = req.session.activeUser;
   try {
     const currentUser = await User.findById(_id);
 
@@ -41,6 +43,7 @@ router.get("/my-profile", async (req, res, next) => {
   }
 });
 
+//EDIT PROFILE
 router.get("/my-profile/edit", async (req, res, next) => {
   try {
     const userToUpdate = await User.findById(req.session.activeUser._id);
@@ -50,20 +53,27 @@ router.get("/my-profile/edit", async (req, res, next) => {
   }
 });
 
-//EDIT
-router.post("/my-profile/edit", uploader.single("image"), async (req, res, next) => {
-  try {
-    await User.findByIdAndUpdate(req.session.activeUser._id, req.body);
-    res.redirect("/profile/my-profile");
-  } catch (error) {
-    next(error);
+router.post(
+  "/my-profile/edit",
+  uploader.single("image"),
+  async (req, res, next) => {
+    try {
+      await User.findByIdAndUpdate(req.session.activeUser._id, req.body);
+      res.redirect("/profile/my-profile");
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-router.get("/user/:id", async (req, res, next) => {
+//PUBLIC PROFILE
+router.get("/user/:id/details", async (req, res, next) => {
   const { id } = req.params;
   try {
-    const foundUser = await User.findById(id);
+    const foundUser = await User.findById(id).populate({
+      path: "comment",
+      populate: { path: "poster", model: "User" },
+    });
 
     const createdEvents = await Event.find({ creator: id });
 
@@ -85,12 +95,31 @@ router.get("/user/:id", async (req, res, next) => {
       }
     });
 
+    const comment = await Comment.find();
+
     res.render("profile/profile.hbs", {
       foundUser,
       createdEvents,
       favEvents,
       attendedEvents,
+      comment,
     });
+  } catch (error) {
+    next(error);
+  }
+});
+
+//COMMENTS
+router.post("/user/:id/comment", async (req, res, next) => {
+  try {
+    const comment = await Comment.create({
+      comment: req.body.comment,
+      poster: req.session.activeUser,
+    });
+    await User.findByIdAndUpdate(req.params.id, {
+      $push: { comment: comment },
+    });
+    res.redirect(`/profile/user/${req.params.id}/details`);
   } catch (error) {
     next(error);
   }

@@ -4,7 +4,7 @@
   <p><span>Price: {{singleEvent.price}}€</span> <span>Location: {{singleEvent.location}}</span> <span>Date:
       {{singleEvent.date}}</span> <span>Available slots: <span>{{usersGoing}}</span>/{{singleEvent.slots}}</span></p>
   <p>{{singleEvent.description}}</p>
-  <p>Organiser: <a href="/profile/user/{{singleEvent.creator._id}}">{{singleEvent.creator.username}}</a></p>
+  <p>Organiser: <a href="/profile/user/{{singleEvent.creator._id}}/details">{{singleEvent.creator.username}}</a></p>
 
   {{!-- USER --}}
   {{#unless isUserOrganiser}}
@@ -31,7 +31,7 @@
   <ul>
     {{#each attendingUsers}}
     <form action="/events/{{../singleEvent._id}}/kick-user/{{this._id}}" method="post">
-      <li>{{this.username}}</li>
+      <li><a href="/profile/user/{{this._id}}/details">{{this.username}}</a></li>
       <button>Delete user</button>
     </form>
     {{/each}}

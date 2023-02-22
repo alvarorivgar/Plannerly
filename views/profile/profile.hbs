@@ -41,4 +41,17 @@
     </p>
     {{/if}}
 
+    <h3>What do others think about this user?</h3>
+    <form action="/profile/user/{{foundUser._id}}/comment" method="post">
+    <input type="text" name="comment">
+    <button>Comment</button>
+    </form>
+
+    <ul>
+        {{#each foundUser.comment}}
+        {{this.poster.username}} || {{this.date}}
+        <li>{{comment}}</li>
+        {{/each}}
+    </ul>
+
 </div>

@@ -39,8 +39,15 @@ const userSchema = new Schema({
   bio: String,
   image: {
     type: String,
-    default: "https://res.cloudinary.com/dkz1jslyi/image/upload/v1677055585/Plannerly/blank-profile-picture-973460_1280-1-705x705_zz7gvv.png"
-  }
+    default:
+      "https://res.cloudinary.com/dkz1jslyi/image/upload/v1677055585/Plannerly/blank-profile-picture-973460_1280-1-705x705_zz7gvv.png",
+  },
+  comment: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+  ],
 });
 
 const User = model("User", userSchema);
