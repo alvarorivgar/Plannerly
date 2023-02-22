@@ -32,11 +32,11 @@
         {{#if isMyEvent}}
         {{!-- EDIT EVENT --}}
         <form action="/events/{{this._id}}/edit">
-            <button>Edit</button>
+            <button>Edit Event</button>
         </form>
         {{!-- DELETE EVENT --}}
         <form action="/events/{{this._id}}/delete" method="post">
-            <button>Delete</button>
+            <button>Delete Event</button>
         </form>
         {{/if}}
         {{/each}}
@@ -45,6 +45,6 @@
     {{/if}}
 
   <form action="/profile/my-profile/edit">
-    <button>Edit</button>
+    <button>Edit Profile</button>
   </form>
 </div>

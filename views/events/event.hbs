@@ -2,7 +2,7 @@
   <img src="{{singleEvent.image}}" alt="event image" height="250px">
   <h1>{{singleEvent.name}}</h1>
   <p><span>Price: {{singleEvent.price}}€</span> <span>Location: {{singleEvent.location}}</span> <span>Date:
-      {{singleEvent.date}}</span> <span>Available slots: <span>{{usersGoing}}</span>/{{singleEvent.slots}}</span></p>
+      {{formattedDate}}</span> <span>Available slots: <span>{{usersGoing}}</span>/{{singleEvent.slots}}</span></p>
   <p>{{singleEvent.description}}</p>
   <p>Organiser: <a href="/profile/user/{{singleEvent.creator._id}}/details">{{singleEvent.creator.username}}</a></p>
 

@@ -94,15 +94,12 @@ router.get("/user/:id/details", async (req, res, next) => {
         event.isMyEvent = false;
       }
     });
-
-    const comment = await Comment.find();
-
+    
     res.render("profile/profile.hbs", {
       foundUser,
       createdEvents,
       favEvents,
       attendedEvents,
-      comment,
     });
   } catch (error) {
     next(error);

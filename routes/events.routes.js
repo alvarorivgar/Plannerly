@@ -9,7 +9,17 @@ const uploader = require("../middlewares/cloudinary");
 router.get("/all", async (req, res, next) => {
   try {
     const allEvents = await Event.find();
-    res.render("events/all-events.hbs", { allEvents });
+
+    formattedDates = []
+
+    allEvents.forEach((event) => {
+    
+      formattedDates.push(event.date.toLocaleDateString('en-GB', { timeZone: 'UTC' }))
+    })
+
+    console.log(formattedDates);
+
+    res.render("events/all-events.hbs", { allEvents, formattedDates });
   } catch (error) {
     next(error);
   }
@@ -43,11 +53,14 @@ router.get("/:id/details", async (req, res, next) => {
     } else {
       singleEvent.isFull = false;
     }
+
+    const formattedDate = singleEvent.date.toLocaleString('en-GB', { timeZone: 'UTC' })
     
     res.render("events/event.hbs", {
       singleEvent,
       attendingUsers,
       usersGoing,
+      formattedDate,
     });
   } catch (error) {
     next(error);
@@ -71,8 +84,8 @@ router.post(
       image = req.file.path;
     }
     try {
-      const { name, price, date, location, description, slots } = req.body;
-
+      let { name, price, date, location, description, slots } = req.body;
+    
       await Event.create({
         name,
         price,

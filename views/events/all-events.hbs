@@ -2,7 +2,20 @@
   <h2>Events</h2>
   <ul>
   {{#each allEvents}}
-    <li><a href="/events/{{_id}}/details"><img src="{{image}}" alt="event image" height="250px"> {{name}}:</a> {{price}}€ || {{location}} || {{date}}</li>
+
+    <li>
+      <a href="/events/{{_id}}/details"><img src="{{image}}" alt="event image" height="250px"> {{name}}:</a>
+
+       {{price}}€ || 
+
+       {{location}} || 
+
+        {{#each formattedDates}}
+          <p>{{this}}</p>
+        {{/each}}
+       
+    </li>
   {{/each}}
+  
   </ul>
 </div>
