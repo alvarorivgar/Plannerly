@@ -1,10 +1,11 @@
-<div>
+<div class="container">
+<div id="event-container">
   <img src="{{singleEvent.image}}" alt="event image" height="250px">
   <h1>{{singleEvent.name}}</h1>
-  <p><span>Price: {{singleEvent.price}}€</span> <span>Location: {{singleEvent.location}}</span> <span>Date:
-      {{formattedDate}}</span> <span>Available slots: <span>{{usersGoing}}</span>/{{singleEvent.slots}}</span></p>
-  <p>{{singleEvent.description}}</p>
-  <p>Organiser: <a href="/profile/user/{{singleEvent.creator._id}}/details">{{singleEvent.creator.username}}</a></p>
+  <p><span><b>Price:</b> {{singleEvent.price}}€</span> || <span><img src="../images/logo.png" alt="location pin"> {{singleEvent.location}}</span> || <span><b>Date:</b>
+      {{formattedDate}}</span> || <span><b>Available slots:</b> <span>{{usersGoing}}</span>/{{singleEvent.slots}}</span></p>
+  <p><b>Description:</b> {{singleEvent.description}}</p>
+  <p><b>Organiser:</b> <a href="/profile/user/{{singleEvent.creator._id}}/details">{{singleEvent.creator.username}}</a></p>
 
   {{!-- USER --}}
   {{#unless isUserOrganiser}}
@@ -27,7 +28,7 @@
   {{!-- ORGANISER --}}
   {{#if isUserOrganiser}}
     {{#if singleEvent.isMyEvent}}
-  <p>Attendants:</p>
+  <p><b>Attendants:</b></p>
   <ul>
     {{#each attendingUsers}}
     <form action="/events/{{../singleEvent._id}}/kick-user/{{this._id}}" method="post">
@@ -39,4 +40,5 @@
   {{/if}}
   {{/if}}
 
+</div>
 </div>

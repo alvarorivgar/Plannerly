@@ -1,12 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap');
+
+/*
+font-family: 'Lato', sans-serif;
+#F5F2ED
+#B99875
+#8C8069
+#60685D
+#345051 */
+
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #F5F2ED;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  font-family: 'Lato', sans-serif;
 }
 
 a {
-  color: #00b7ff;
+  color: #60685D;
 }
 
 h1 {
   color: 15px;
+}
+
+#home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 80vh;
+}
+
+#home-btn {
+  background-color: #345051;
+  color: #F5F2ED;
+  padding: 20px;
+  border-radius: 16px;
+  border: 0;
+  font-size: 1.5em;
+}
+
+#home-btn:hover {
+  cursor: pointer;
+}
+
+nav {
+  padding: 50px;
+  background-color: #60685D;
+  display: flex;
+  justify-content: space-between;
+}
+
+nav a {
+  margin: 32px;
+  font-size: 1.2em;
+  color: #F5F2ED;
+  text-decoration: none;
+}
+
+h2 {
+  margin: 50px;
+  color: #345051;
+  font-weight: 800;
+}
+
+#event-list ul {
+  margin: 50px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#event-list li {
+  display: flex;
+  flex-direction: column;
+  margin: 25px;
+  justify-content: space-evenly;
+}
+
+#event-list li a {
+  margin-bottom: 10px;
+  color: #B99875;
+  font-weight: 600;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+#event-container {
+  text-align: center;
+  width: 400px;
+  margin-top: 50px;
+  padding: 25px;
+  border: 4px solid #8C8069;
+  border-radius: 30px;
+}
+
+#event-container img {
+  border-radius: 30px;
 }

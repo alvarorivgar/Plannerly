@@ -11,8 +11,11 @@
 
    <body>
       <nav>
+         <div id="common-urls">
          <a href="/">Home</a>
          <a href="/events/all">Events</a>
+         </div>
+         <div id="rest-of-urls">
          {{#if isUserActive}}
          <a href="/profile/my-profile">Profile</a>
             {{#if isUserOrganiser}}
@@ -23,9 +26,8 @@
          <a href="/auth/signup">Sign up</a>
          <a href="/auth/login">Log in</a>
          {{/if}}
-     
-         
-        
+         </div>
+
       </nav>
       {{{body}}}
 
