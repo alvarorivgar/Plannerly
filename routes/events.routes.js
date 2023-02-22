@@ -35,12 +35,15 @@ router.get("/:id/details", async (req, res, next) => {
     const attendingUsers = await User.find({
       attendedEvents: { _id: req.params.id },
     }).select();
+
     const usersGoing = singleEvent.slots - attendingUsers.length;
+
     if (attendingUsers.length === singleEvent.slots) {
       singleEvent.isFull = true;
     } else {
       singleEvent.isFull = false;
     }
+    
     res.render("events/event.hbs", {
       singleEvent,
       attendingUsers,
