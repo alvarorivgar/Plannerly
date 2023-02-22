@@ -111,7 +111,7 @@ router.post("/login", async (req, res, next) => {
     // Create session
     req.session.activeUser = foundUser;
     req.session.save(() => {
-      res.redirect(`/profile/${foundUser._id}`);
+      res.redirect(`/profile/my-profile`);
     });
   } catch (error) {
     next(error);

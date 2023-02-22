@@ -34,6 +34,13 @@ const userSchema = new Schema({
     type: String,
     enum: ["organiser", "user"],
   },
+  age: Number,
+  city: String,
+  bio: String,
+  image: {
+    type: String,
+    default: "https://res.cloudinary.com/dkz1jslyi/image/upload/v1677055585/Plannerly/blank-profile-picture-973460_1280-1-705x705_zz7gvv.png"
+  }
 });
 
 const User = model("User", userSchema);

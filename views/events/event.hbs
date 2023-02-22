@@ -1,41 +1,42 @@
 <div>
   <img src="{{singleEvent.image}}" alt="event image" height="250px">
   <h1>{{singleEvent.name}}</h1>
-  <p><span>Price: {{singleEvent.price}}€</span> <span>Location: {{singleEvent.location}}</span> <span>Date: {{singleEvent.date}}</span> <span>Available slots: <span>{{usersGoing}}</span>/{{singleEvent.slots}}</span></p>
+  <p><span>Price: {{singleEvent.price}}€</span> <span>Location: {{singleEvent.location}}</span> <span>Date:
+      {{singleEvent.date}}</span> <span>Available slots: <span>{{usersGoing}}</span>/{{singleEvent.slots}}</span></p>
   <p>{{singleEvent.description}}</p>
-  <p>Organiser: <a href="/profile/{{singleEvent.creator._id}}">{{singleEvent.creator.username}}</a></p>
+  <p>Organiser: <a href="/profile/user/{{singleEvent.creator._id}}">{{singleEvent.creator.username}}</a></p>
 
-{{!-- USER --}}
+  {{!-- USER --}}
   {{#unless isUserOrganiser}}
   <form action="/events/{{singleEvent._id}}/fav" method="post">
     <button>Fav</button>
   </form>
-  {{/unless}} 
+  {{/unless}}
 
   {{#unless isUserOrganiser}}
-    {{#unless singleEvent.isFull}}
-    <form action="/events/{{singleEvent._id}}/attend" method="post">
-      <button>Attend</button>
-    </form>
-    {{/unless}}
-    {{#if singleEvent.isFull}}
-      <p>Event full</p>
-    {{/if}}
-  {{/unless}} 
+  {{#unless singleEvent.isFull}}
+  <form action="/events/{{singleEvent._id}}/attend" method="post">
+    <button>Attend</button>
+  </form>
+  {{/unless}}
+  {{#if singleEvent.isFull}}
+  <p>Event full</p>
+  {{/if}}
+  {{/unless}}
 
-{{!-- ORGANISER --}}
-{{#if isUserOrganiser}}
-<p>Attendants:</p>
-<ul>
-  {{#if isMyEvent}}
-  {{#each attendingUsers}}
-<form action="/events/{{../singleEvent._id}}/kick-user/{{this._id}}" method="post">
-  <li>{{this.username}}</li>
-<button>Delete user</button>
-</form>
-  {{/each}}
-</ul>
-{{/if}}
-{{/if}}
+  {{!-- ORGANISER --}}
+  {{#if isUserOrganiser}}
+    {{#if singleEvent.isMyEvent}}
+  <p>Attendants:</p>
+  <ul>
+    {{#each attendingUsers}}
+    <form action="/events/{{../singleEvent._id}}/kick-user/{{this._id}}" method="post">
+      <li>{{this.username}}</li>
+      <button>Delete user</button>
+    </form>
+    {{/each}}
+  </ul>
+  {{/if}}
+  {{/if}}
 
 </div>

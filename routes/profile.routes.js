@@ -3,12 +3,38 @@ const { isOrganiser, isLoggedIn } = require("../middlewares/auth-middlewares");
 const Event = require("../models/Event.model");
 const User = require("../models/User.model");
 const router = express.Router();
+const uploader = require("../middlewares/cloudinary");
 
 router.get("/my-profile", async (req, res, next) => {
+  const {_id} = req.session.activeUser
   try {
-    const currentUser = await User.findById(req.session.activeUser._id);
+    const currentUser = await User.findById(_id);
+
+    const createdEvents = await Event.find({ creator: _id });
+
+    const favEvents = await User.findById(_id)
+      .select({ favouriteEvents: 1 })
+      .populate("favouriteEvents", "name");
+
+    const attendedEvents = await User.findById(_id)
+      .select({
+        attendedEvents: 1,
+      })
+      .populate("attendedEvents", "name");
+
+    createdEvents.forEach((event) => {
+      if (_id.toString() === event.creator._id.toString()) {
+        event.isMyEvent = true;
+      } else {
+        event.isMyEvent = false;
+      }
+    });
+
     res.render("profile/my-profile.hbs", {
       currentUser,
+      createdEvents,
+      favEvents,
+      attendedEvents,
     });
   } catch (error) {
     next(error);
@@ -25,16 +51,16 @@ router.get("/my-profile/edit", async (req, res, next) => {
 });
 
 //EDIT
-router.post("/my-profile/edit", async (req, res, next) => {
+router.post("/my-profile/edit", uploader.single("image"), async (req, res, next) => {
   try {
     await User.findByIdAndUpdate(req.session.activeUser._id, req.body);
-    res.redirect("profile/my-profile.hbs");
+    res.redirect("/profile/my-profile");
   } catch (error) {
     next(error);
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get("/user/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
     const foundUser = await User.findById(id);
