@@ -1,27 +1,42 @@
-<div>
-  <h2>Create an event</h2>
-  <form action="/events/create" method="post" enctype="multipart/form-data">
+<h2>Create an event</h2>
+<div class="form-container">
+  <form
+    class="form"
+    action="/events/create"
+    method="post"
+    enctype="multipart/form-data"
+  >
     <label for="name">Name:</label>
-    <input type="text" name="name">
-    <br>
+    <br />
+    <input type="text" name="name" />
+    <br />
     <label for="description">Description:</label>
-    <input type="text" name="description" id="description">
-    <br>
+    <br />
+    <input type="text" name="description" id="description" />
+    <br />
     <label for="price">Price:</label>
-    <input type="number" name="price" >
-    <br>
+    <br />
+    <input type="number" name="price" />
+    <br />
     <label for="location">Location:</label>
-    <input type="text" name="location" id="location">
-    <br>
+    <br />
+    <input type="text" name="location" id="location" />
+    <br />
     <label for="date">Date:</label>
-    <input type="datetime-local" name="date" id="date">
-    <br>
+    <br />
+    <input type="datetime-local" name="date" id="date" />
+    <br />
     <label for="slots">Slots:</label>
-    <input type="number" name="slots" id="slots">
-    <br>
-    <label for="image">Event image:</label>
-    <input type="file" name="image">
-    <br>
+    <br />
+    <input type="number" name="slots" id="slots" />
+    <br />
+    <div class="profile-picture-container">
+      <label for="image">Event image:</label>
+      <div class="upload">
+        <input type="file" name="image" />
+      </div>
+    </div>
+    <br />
     <button>Create</button>
   </form>
 </div>

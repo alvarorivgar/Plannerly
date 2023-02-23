@@ -1,48 +1,48 @@
 <div>
-  <img src="{{currentUser.image}}" alt="profile picture">
+  <img src="{{currentUser.image}}" alt="profile picture" />
   <h1>{{currentUser.username}}</h1>
   <p>Email: {{currentUser.email}}</p>
   <p>Age: {{currentUser.age}}</p>
   <p>City: {{currentUser.city}}</p>
   <p>Bio: {{currentUser.bio}}</p>
-  
+
   {{#unless isUserOrganiser}}
     <p>Attended events:
-    <ul>
+      <ul>
         {{#each attendedEvents.attendedEvents}}
-        <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
+          <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
         {{/each}}
-    </ul>
+      </ul>
     </p>
     <p>Favourite events:
-    <ul>
+      <ul>
         {{#each favEvents.favouriteEvents}}
-        <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
+          <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
         {{/each}}
-    </ul>
+      </ul>
     </p>
-    {{/unless}}
+  {{/unless}}
 
-    {{#if isUserOrganiser}}
+  {{#if isUserOrganiser}}
     <p>Organised events:
-    <ul>
+      <ul>
         {{#each createdEvents}}
-        <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
-        <br>
-        {{#if isMyEvent}}
-        {{!-- EDIT EVENT --}}
-        <form action="/events/{{this._id}}/edit">
-            <button>Edit Event</button>
-        </form>
-        {{!-- DELETE EVENT --}}
-        <form action="/events/{{this._id}}/delete" method="post">
-            <button>Delete Event</button>
-        </form>
-        {{/if}}
+          <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
+          <br />
+          {{#if isMyEvent}}
+            {{! EDIT EVENT }}
+            <form action="/events/{{this._id}}/edit">
+              <button>Edit Event</button>
+            </form>
+            {{! DELETE EVENT }}
+            <form action="/events/{{this._id}}/delete" method="post">
+              <button>Delete Event</button>
+            </form>
+          {{/if}}
         {{/each}}
-    </ul>
+      </ul>
     </p>
-    {{/if}}
+  {{/if}}
 
   <form action="/profile/my-profile/edit">
     <button>Edit Profile</button>

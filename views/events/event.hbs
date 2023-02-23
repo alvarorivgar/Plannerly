@@ -2,8 +2,8 @@
 <div id="event-container">
   <img src="{{singleEvent.image}}" alt="event image" height="250px">
   <h1>{{singleEvent.name}}</h1>
-  <p><span><b>Price:</b> {{singleEvent.price}}€</span> || <span><img src="../images/logo.png" alt="location pin"> {{singleEvent.location}}</span> || <span><b>Date:</b>
-      {{formattedDate}}</span> || <span><b>Available slots:</b> <span>{{usersGoing}}</span>/{{singleEvent.slots}}</span></p>
+  <p><span><img class="icon" src="../../images/price.png" alt="euro symbol"> {{singleEvent.price}}€</span> || <span><img class="icon" src="../../images/pin.png" alt="location pin"> {{singleEvent.location}}</span> || <span><img class="icon" src="../../images/date.png" alt="date icon">
+      {{formattedDate}}</span> || <span><img class="icon" src="../../images/slots.png" alt="people"> <span>{{usersGoing}}</span>/{{singleEvent.slots}}</span></p>
   <p><b>Description:</b> {{singleEvent.description}}</p>
   <p><b>Organiser:</b> <a href="/profile/user/{{singleEvent.creator._id}}/details">{{singleEvent.creator.username}}</a></p>
 

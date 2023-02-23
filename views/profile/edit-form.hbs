@@ -1,17 +1,30 @@
-<div>
-  <form action="/profile/my-profile/edit" method="post">
+<h2>Tell us about yourself</h2>
+<div class="form-container">
+  <form class="form" action="/profile/my-profile/edit" method="post">
     <label for="age">Age:</label>
-    <input type="number" name="age" value="{{userToUpdate.age}}">
-    <br>
+    <br />
+    <input type="number" name="age" value="{{userToUpdate.age}}" />
+    <br />
     <label for="city">City:</label>
-    <input type="text" name="city" value="{{userToUpdate.city}}">
-    <br>
+    <br />
+    <input type="text" name="city" value="{{userToUpdate.city}}" />
+    <br />
     <label for="bio">Bio:</label>
-    <input type="text" name="bio" value="{{userToUpdate.bio}}">
-    <br>
-    <label for="image">Profile picture:</label>
-    <input type="file" name="image">
-    <br>
+    <br />
+    <textarea
+      rows="5"
+      cols="40"
+      name="bio"
+      value="{{userToUpdate.bio}}"
+    ></textarea>
+    <br />
+    <div class="profile-picture-container">
+      <label for="image">Profile picture:</label>
+      <div class="upload">
+        <input type="file" name="image" />
+      </div>
+    </div>
+    <br />
     <button>Update</button>
   </form>
 </div>

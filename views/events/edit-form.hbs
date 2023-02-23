@@ -1,24 +1,33 @@
-<div>
-  <h2>Update your event</h2>
-  <form action="/events/{{this.id}}/edit" method="post">
+<h2>Update your event</h2>
+<div class="form-container">
+  <form class="form" action="/events/{{this.id}}/edit" method="post">
     <label for="name">Name:</label>
-    <input type="text" name="name" value="{{name}}">
-    <br>
+    <br />
+    <input type="text" name="name" value="{{name}}" />
+    <br />
     <label for="price">Price:</label>
-    <input type="number" name="price" value="{{price}}">
-    <br>
+    <br />
+    <input type="number" name="price" value="{{price}}" />
+    <br />
     <label for="location">Location:</label>
-    <input type="text" name="location" id="location" value="{{location}}">
-    <br>
+    <br />
+    <input type="text" name="location" id="location" value="{{location}}" />
+    <br />
     <label for="date">Date:</label>
-    <input type="date" name="date" id="date">
-    <br>
+    <br />
+    <input type="date" name="date" id="date" />
+    <br />
     <label for="slots">Slots:</label>
-    <input type="number" name="slots" id="slots" value="{{slots}}">
-    <br>
-    <label for="image">Event image:</label>
-    <input type="file" name="image">
-    <br>
+    <br />
+    <input type="number" name="slots" id="slots" value="{{slots}}" />
+    <br />
+    <div class="profile-picture-container">
+      <label for="image">Event image:</label>
+      <div class="upload">
+        <input type="file" name="image" />
+      </div>
+    </div>
+    <br />
     <button>Update</button>
   </form>
 </div>
