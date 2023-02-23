@@ -1,60 +1,55 @@
 <div class="profile-container">
-  <img src="{{foundUser.image}}" alt="profile picture" />
+  <div class="img-container">
+    <img src="{{foundUser.image}}" alt="profile picture" />
+  </div>
+  <div class="profile">
+    <h1>{{foundUser.username}}</h1>
 
-  <h1>{{foundUser.username}}</h1>
-  <h3></h3>
+    {{#unless isUserOrganiser}}
+      <p>Attended events:
+        <ul>
+          {{#each attendedEvents.attendedEvents}}
+            <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
+          {{/each}}
+        </ul>
+      </p>
+      <p>Favourite events:
+        <ul>
+          {{#each favEvents.favouriteEvents}}
+            <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
+          {{/each}}
+        </ul>
+      </p>
+    {{/unless}}
 
-  {{#unless isUserOrganiser}}
-    <p>Attended events:
-      <ul>
-        {{#each attendedEvents.attendedEvents}}
-          <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
-        {{/each}}
-      </ul>
-    </p>
-    <p>Favourite events:
-      <ul>
-        {{#each favEvents.favouriteEvents}}
-          <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
-        {{/each}}
-      </ul>
-    </p>
-  {{/unless}}
+    {{#if isUserOrganiser}}
+      <p>Organised events:
+        <ul>
+          {{#each createdEvents}}
+            <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
+          {{/each}}
+        </ul>
+      </p>
+    {{/if}}
 
-  {{#if isUserOrganiser}}
-    <p>Organised events:
-      <ul>
-        {{#each createdEvents}}
-          <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
-          <br />
-          {{#if isMyEvent}}
-            {{! EDIT EVENT }}
-            <form action="/events/{{this._id}}/edit">
-              <button>Edit</button>
-            </form>
-            {{! DELETE EVENT }}
-            <form action="/events/{{this._id}}/delete" method="post">
-              <button>Delete</button>
-            </form>
-          {{/if}}
-        {{/each}}
-      </ul>
-    </p>
-  {{/if}}
+    <h3>What do others think about this user?</h3>
+    <form
+      id="comments"
+      action="/profile/user/{{foundUser._id}}/comment"
+      method="post"
+    >
+      <textarea rows="5" cols="40" type="text" name="comment"></textarea>
+      <button>Comment</button>
+    </form>
 
-  <h3>What do others think about this user?</h3>
-  <form action="/profile/user/{{foundUser._id}}/comment" method="post">
-    <input type="text" name="comment" />
-    <button>Comment</button>
-  </form>
+    <ul>
+      {{#each foundUser.comment}}
+        <a
+          href="/profile/user/{{this.poster._id}}/details"
+        >{{this.poster.username}}</a>
+        <li>{{comment}}</li>
+      {{/each}}
+    </ul>
 
-  <ul>
-    {{#each foundUser.comment}}
-      {{this.poster.username}}
-      ||
-      {{this.date}}
-      <li>{{comment}}</li>
-    {{/each}}
-  </ul>
-
+  </div>
 </div>

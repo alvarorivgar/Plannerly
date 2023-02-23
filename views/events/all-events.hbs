@@ -1,24 +1,26 @@
 <div>
   <h2>What do you want to do?</h2>
   <div id="event-list">
-  <ul>
-  {{#each eventsClone}}
+    <ul>
+      {{#each eventsClone}}
 
-    <li>
-      <a href="/events/{{_id}}/details"><img src="{{image}}" alt="event image" height="250px"></a>
-      <a href="/events/{{_id}}/details">{{name}}</a>
+        <li>
+          <a href="/events/{{_id}}/details"><img
+              src="{{image}}"
+              alt="event image"
+              height="250px"
+            /></a>
+          <a href="/events/{{_id}}/details">{{name}}</a>
 
-       {{price}}€ || 
+          {{price}}€ ||
 
-       {{location}} || 
+          {{location}}
+          ||
+          {{date}}
 
-        
-      <p>{{date}}</p>
-       
-       
-    </li>
-  {{/each}}
-  
-  </ul>
+        </li>
+      {{/each}}
+
+    </ul>
   </div>
 </div>

@@ -14,6 +14,7 @@ font-family: 'Lato', sans-serif;
 
 body {
   background-color: #f5f2ed;
+  color: #345051;
   margin: 0;
   width: 100vw;
   height: 100vh;
@@ -81,9 +82,10 @@ nav a {
 }
 
 #event-list li {
+  width: 25%;
   display: flex;
   flex-direction: column;
-  margin: 25px;
+  margin: 50px;
   justify-content: space-evenly;
 }
 
@@ -91,6 +93,11 @@ nav a {
   margin-bottom: 10px;
   color: #b99875;
   font-weight: 600;
+}
+
+#event-list img {
+  border-radius: 30px;
+  height: 250px;
 }
 
 .container {
@@ -122,9 +129,41 @@ nav a {
   border-radius: 30px;
 }
 
+#event-container form li {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#event-container form li a {
+  text-decoration: none;
+  margin: 15px;
+}
+
 .icon {
   height: 18px;
   vertical-align: text-bottom;
+}
+
+.btn-container button {
+  background-color: #345051;
+  color: #f5f2ed;
+  padding: 8px 18px;
+  margin-top: 8px;
+  border-radius: 16px;
+  border: 0;
+  font-size: 0.6em;
+}
+
+.kick-btn button {
+  background-color: darkred;
+  color: #f5f2ed;
+  padding: 8px 18px;
+  margin-top: 8px;
+  border-radius: 16px;
+  border: 0;
+  font-size: 0.6em;
 }
 
 /* FORMS */
@@ -207,7 +246,7 @@ button:hover {
   margin-top: 10px;
 }
 
-/* PROFILES */
+/* PRIVATE PROFILE */
 .profile-container {
   display: flex;
   min-height: calc(100vh - 150px);
@@ -249,12 +288,18 @@ button:hover {
   text-decoration: none;
 }
 
-.profile button {
+/* PUBLIC PROFILE */
+#comments {
+  display: flex;
+  align-items: stretch;
+}
+
+#comments button {
   background-color: #345051;
   color: #f5f2ed;
   padding: 8px 18px;
-  margin-top: 8px;
+  margin: 10px;
   border-radius: 16px;
   border: 0;
-  font-size: 0.6em;
+  font-size: 0.8em;
 }

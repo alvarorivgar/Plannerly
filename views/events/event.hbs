@@ -32,23 +32,27 @@
   <ul>
     {{#each attendingUsers}}
     <form action="/events/{{../singleEvent._id}}/kick-user/{{this._id}}" method="post">
-      <li><a href="/profile/user/{{this._id}}/details">{{this.username}}</a></li>
-      <button>Delete user</button>
+      <li><a href="/profile/user/{{this._id}}/details">{{this.username}}</a> <div class="kick-btn">
+      <button>Kick</button>
+      </div></li>
     </form>
     {{/each}}
   </ul>
 
-              <div id="btn-container">
-                {{! EDIT EVENT }}
-                <form action="/events/{{singleEvent._id}}/edit">
-                  <button>Edit Event</button>
-                </form>
-                {{! DELETE EVENT }}
-                <form action="/events/{{singleEvent._id}}/delete" method="post">
-                  <button>Delete Event</button>
-                </form>
+  <div class="btn-container">
+     {{! EDIT EVENT }}
+      <form action="/events/{{singleEvent._id}}/edit">
+        <button>Edit Event</button>
+       </form>
+       </div>
+       <div class="kick-btn">
+      {{! DELETE EVENT }}
+      <form action="/events/{{singleEvent._id}}/delete" method="post">
+        <button>Delete Event</button>
+      </form>
 
-              </div>
+       </div>
+   </div>
 
 
 
