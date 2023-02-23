@@ -37,6 +37,21 @@
     </form>
     {{/each}}
   </ul>
+
+              <div id="btn-container">
+                {{! EDIT EVENT }}
+                <form action="/events/{{singleEvent._id}}/edit">
+                  <button>Edit Event</button>
+                </form>
+                {{! DELETE EVENT }}
+                <form action="/events/{{singleEvent._id}}/delete" method="post">
+                  <button>Delete Event</button>
+                </form>
+
+              </div>
+
+
+
   {{/if}}
   {{/if}}
 

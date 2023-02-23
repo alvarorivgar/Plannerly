@@ -31,19 +31,6 @@
         <ul>
           {{#each createdEvents}}
             <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
-            {{#if isMyEvent}}
-              <div id="btn-container">
-                {{! EDIT EVENT }}
-                <form action="/events/{{this._id}}/edit">
-                  <button>Edit Event</button>
-                </form>
-                {{! DELETE EVENT }}
-                <form action="/events/{{this._id}}/delete" method="post">
-                  <button>Delete Event</button>
-                </form>
-
-              </div>
-            {{/if}}
           {{/each}}
         </ul>
       </p>
