@@ -1,42 +1,44 @@
 <h2>Create an event</h2>
-<div class="form-container">
-  <form
-    class="form"
-    action="/events/create"
-    method="post"
-    enctype="multipart/form-data"
-  >
-    <label for="name">Name:</label>
-    <br />
-    <input type="text" name="name" />
-    <br />
-    <label for="description">Description:</label>
-    <br />
-    <input type="text" name="description" id="description" />
-    <br />
-    <label for="price">Price:</label>
-    <br />
-    <input type="number" name="price" />
-    <br />
-    <label for="location">Location:</label>
-    <br />
-    <input type="text" name="location" id="location" />
-    <br />
-    <label for="date">Date:</label>
-    <br />
-    <input type="datetime-local" name="date" id="date" />
-    <br />
-    <label for="slots">Slots:</label>
-    <br />
-    <input type="number" name="slots" id="slots" />
-    <br />
-    <div class="profile-picture-container">
-      <label for="image">Event image:</label>
-      <div class="upload">
-        <input type="file" name="image" />
+<div class="container">
+  <div class="form-container">
+    <form
+      class="form"
+      action="/events/create"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <label for="name">Name:</label>
+      <br />
+      <input type="text" name="name" />
+      <br />
+      <label for="description">Description:</label>
+      <br />
+      <input type="text" name="description" id="description" />
+      <br />
+      <label for="price">Price:</label>
+      <br />
+      <input type="number" name="price" />
+      <br />
+      <label for="location">Location:</label>
+      <br />
+      <input type="text" name="location" id="location" />
+      <br />
+      <label for="date">Date:</label>
+      <br />
+      <input type="datetime-local" name="date" id="date" />
+      <br />
+      <label for="slots">Slots:</label>
+      <br />
+      <input type="number" name="slots" id="slots" />
+      <br />
+      <div class="profile-picture-container">
+        <label for="image">Event image:</label>
+        <div class="upload">
+          <input type="file" name="image" />
+        </div>
       </div>
-    </div>
-    <br />
-    <button>Create</button>
-  </form>
+      <br />
+      <button>Create</button>
+    </form>
+  </div>
 </div>

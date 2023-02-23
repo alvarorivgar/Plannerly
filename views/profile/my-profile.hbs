@@ -1,50 +1,56 @@
-<div>
-  <img src="{{currentUser.image}}" alt="profile picture" />
-  <h1>{{currentUser.username}}</h1>
-  <p>Email: {{currentUser.email}}</p>
-  <p>Age: {{currentUser.age}}</p>
-  <p>City: {{currentUser.city}}</p>
-  <p>Bio: {{currentUser.bio}}</p>
+<div class="profile-container">
+  <div class="img-container">
+    <img src="{{currentUser.image}}" alt="profile picture" />
+  </div>
+  <div class="profile">
+    <h1>{{currentUser.username}}</h1>
+    <p><b>Email:</b> {{currentUser.email}}</p>
+    <p><b>Age:</b> {{currentUser.age}}</p>
+    <p><b>City:</b> {{currentUser.city}}</p>
+    <p><b>Bio:</b> {{currentUser.bio}}</p>
 
-  {{#unless isUserOrganiser}}
-    <p>Attended events:
-      <ul>
-        {{#each currentUser.attendedEvents}}
-          <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
-        {{/each}}
-      </ul>
-    </p>
-    <p>Favourite events:
-      <ul>
-        {{#each currentUser.favouriteEvents}}
-          <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
-        {{/each}}
-      </ul>
-    </p>
-  {{/unless}}
+    {{#unless isUserOrganiser}}
+      <p><b>Attended events:</b>
+        <ul>
+          {{#each currentUser.attendedEvents}}
+            <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
+          {{/each}}
+        </ul>
+      </p>
+      <p><b>Favourite events:</b>
+        <ul>
+          {{#each currentUser.favouriteEvents}}
+            <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
+          {{/each}}
+        </ul>
+      </p>
+    {{/unless}}
 
-  {{#if isUserOrganiser}}
-    <p>Organised events:
-      <ul>
-        {{#each createdEvents}}
-          <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
-          <br />
-          {{#if isMyEvent}}
-            {{! EDIT EVENT }}
-            <form action="/events/{{this._id}}/edit">
-              <button>Edit Event</button>
-            </form>
-            {{! DELETE EVENT }}
-            <form action="/events/{{this._id}}/delete" method="post">
-              <button>Delete Event</button>
-            </form>
-          {{/if}}
-        {{/each}}
-      </ul>
-    </p>
-  {{/if}}
+    {{#if isUserOrganiser}}
+      <p><b>Organised events:</b>
+        <ul>
+          {{#each createdEvents}}
+            <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
+            {{#if isMyEvent}}
+              <div id="btn-container">
+                {{! EDIT EVENT }}
+                <form action="/events/{{this._id}}/edit">
+                  <button>Edit Event</button>
+                </form>
+                {{! DELETE EVENT }}
+                <form action="/events/{{this._id}}/delete" method="post">
+                  <button>Delete Event</button>
+                </form>
 
-  <form action="/profile/my-profile/edit">
-    <button>Edit Profile</button>
-  </form>
+              </div>
+            {{/if}}
+          {{/each}}
+        </ul>
+      </p>
+    {{/if}}
+
+    <form action="/profile/my-profile/edit">
+      <button>Edit Profile</button>
+    </form>
+  </div>
 </div>
