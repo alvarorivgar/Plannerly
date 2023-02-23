@@ -88,7 +88,7 @@ router.get("/user/:id/details", isLoggedIn, async (req, res, next) => {
     }).populate("attendedEvents").populate("favouriteEvents");
 
     const createdEvents = await Event.find({ creator: id });
-
+    const isOrganiser = foundUser.role === "organiser";
 
     createdEvents.forEach((event) => {
       if (req.session.activeUser._id === event.creator._id.toString()) {
@@ -101,6 +101,7 @@ router.get("/user/:id/details", isLoggedIn, async (req, res, next) => {
     res.render("profile/profile.hbs", {
       foundUser,
       createdEvents,
+      isOrganiser,
     });
   } catch (error) {
     next(error);

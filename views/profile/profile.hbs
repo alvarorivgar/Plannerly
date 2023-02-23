@@ -10,7 +10,7 @@
     <p><b>City: </b>{{foundUser.city}}</p>
 
     <p><b>Bio: </b>{{foundUser.bio}}</p>
-    {{#unless isUserOrganiser}}
+    {{#unless isOrganiser}}
       <p>Attended events:
         <ul>
           {{#each foundUser.attendedEvents}}
@@ -27,7 +27,7 @@
       </p>
     {{/unless}}
 
-    {{#if isUserOrganiser}}
+    {{#if isOrganiser}}
       <p>Organised events:
         <ul>
           {{#each createdEvents}}
