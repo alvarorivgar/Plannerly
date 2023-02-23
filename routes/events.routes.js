@@ -10,15 +10,15 @@ router.get("/all", async (req, res, next) => {
   try {
     const allEvents = await Event.find();
 
-    let eventsClone = JSON.parse(JSON.stringify(allEvents))
+    let eventsClone = JSON.parse(JSON.stringify(allEvents));
 
     eventsClone.forEach((event) => {
-      let newDate = new Date(event.date)
+      let newDate = new Date(event.date);
 
-      event.date = newDate.toLocaleDateString('en-GB', { timeZone: 'UTC' })
-    })
+      event.date = newDate.toLocaleDateString("en-GB", { timeZone: "UTC" });
+    });
 
-    res.render("events/all-events.hbs", {eventsClone} );
+    res.render("events/all-events.hbs", { eventsClone });
   } catch (error) {
     next(error);
   }
@@ -55,8 +55,10 @@ router.get("/:id/details", async (req, res, next) => {
       singleEvent.isFull = false;
     }
 
-    const formattedDate = singleEvent.date.toLocaleString('en-GB', { timeZone: 'UTC' })
-    
+    const formattedDate = singleEvent.date.toLocaleString("en-GB", {
+      timeZone: "UTC",
+    });
+
     res.render("events/event.hbs", {
       singleEvent,
       attendingUsers,
@@ -86,7 +88,7 @@ router.post(
     }
     try {
       let { name, price, date, location, description, slots } = req.body;
-    
+
       await Event.create({
         name,
         price,
@@ -122,7 +124,16 @@ router.post(
   uploader.single("image"),
   async (req, res, next) => {
     try {
-      await Event.findByIdAndUpdate(req.params.id, req.body);
+      let { name, price, date, location, description, slots } = req.body;
+      await Event.findByIdAndUpdate(req.params.id, {
+        name,
+        price,
+        date,
+        location,
+        slots,
+        description,
+        image: req.file.path,
+      });
       res.redirect(`/events/${req.params.id}/details`);
     } catch (error) {
       next(error);
