@@ -33,6 +33,8 @@ router.get("/:id/details", async (req, res, next) => {
       "username"
     );
 
+    console.log(singleEvent.image);
+
     if (
       req.session.activeUser._id.toString() ===
       singleEvent.creator._id.toString()

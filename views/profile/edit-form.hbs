@@ -1,6 +1,6 @@
 <h2>Tell us about yourself</h2>
 <div class="form-container">
-  <form class="form" action="/profile/my-profile/edit" method="post">
+  <form class="form" action="/profile/my-profile/edit" method="post" enctype="multipart/form-data">
     <label for="age">Age:</label>
     <br />
     <input type="number" name="age" value="{{userToUpdate.age}}" />

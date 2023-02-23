@@ -11,7 +11,7 @@ router.get("/my-profile", async (req, res, next) => {
   const { _id } = req.session.activeUser;
   try {
     const currentUser = await User.findById(_id);
-
+    console.log(currentUser.image);
     const createdEvents = await Event.find({ creator: _id });
 
     const favEvents = await User.findById(_id)
@@ -53,12 +53,21 @@ router.get("/my-profile/edit", async (req, res, next) => {
   }
 });
 
-router.post(
-  "/my-profile/edit",
-  uploader.single("image"),
-  async (req, res, next) => {
+router.post("/my-profile/edit", uploader.single("image"), async (req, res, next) => {
+    
+  let image;
+    if (req.file !== undefined) {
+      image = req.file.path;
+    }
+
+    const { age, city, bio } = req.body;
     try {
-      await User.findByIdAndUpdate(req.session.activeUser._id, req.body);
+      await User.findByIdAndUpdate(req.session.activeUser._id, {
+        age,
+        city,
+        bio,
+        image,
+      });
       res.redirect("/profile/my-profile");
     } catch (error) {
       next(error);
@@ -94,7 +103,7 @@ router.get("/user/:id/details", async (req, res, next) => {
         event.isMyEvent = false;
       }
     });
-    
+
     res.render("profile/profile.hbs", {
       foundUser,
       createdEvents,
