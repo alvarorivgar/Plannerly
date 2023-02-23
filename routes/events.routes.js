@@ -10,16 +10,15 @@ router.get("/all", async (req, res, next) => {
   try {
     const allEvents = await Event.find();
 
-    formattedDates = []
+    let eventsClone = JSON.parse(JSON.stringify(allEvents))
 
-    allEvents.forEach((event) => {
-    
-      formattedDates.push(event.date.toLocaleDateString('en-GB', { timeZone: 'UTC' }))
+    eventsClone.forEach((event) => {
+      let newDate = new Date(event.date)
+
+      event.date = newDate.toLocaleDateString('en-GB', { timeZone: 'UTC' })
     })
 
-    console.log(formattedDates);
-
-    res.render("events/all-events.hbs", { allEvents, formattedDates });
+    res.render("events/all-events.hbs", {eventsClone} );
   } catch (error) {
     next(error);
   }

@@ -2,7 +2,7 @@
   <h2>What do you want to do?</h2>
   <div id="event-list">
   <ul>
-  {{#each allEvents}}
+  {{#each eventsClone}}
 
     <li>
       <a href="/events/{{_id}}/details"><img src="{{image}}" alt="event image" height="250px"></a>
@@ -12,9 +12,9 @@
 
        {{location}} || 
 
-        {{#each formattedDates}}
-          <p>{{this}}</p>
-        {{/each}}
+        
+      <p>{{date}}</p>
+       
        
     </li>
   {{/each}}

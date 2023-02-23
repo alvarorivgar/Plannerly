@@ -9,14 +9,14 @@
   {{#unless isUserOrganiser}}
     <p>Attended events:
       <ul>
-        {{#each attendedEvents.attendedEvents}}
+        {{#each currentUser.attendedEvents}}
           <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
         {{/each}}
       </ul>
     </p>
     <p>Favourite events:
       <ul>
-        {{#each favEvents.favouriteEvents}}
+        {{#each currentUser.favouriteEvents}}
           <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
         {{/each}}
       </ul>

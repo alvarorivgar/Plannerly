@@ -10,19 +10,9 @@ const uploader = require("../middlewares/cloudinary");
 router.get("/my-profile", async (req, res, next) => {
   const { _id } = req.session.activeUser;
   try {
-    const currentUser = await User.findById(_id);
-    console.log(currentUser.image);
+    const currentUser = await User.findById(_id).populate("attendedEvents").populate("favouriteEvents");
+    
     const createdEvents = await Event.find({ creator: _id });
-
-    const favEvents = await User.findById(_id)
-      .select({ favouriteEvents: 1 })
-      .populate("favouriteEvents", "name");
-
-    const attendedEvents = await User.findById(_id)
-      .select({
-        attendedEvents: 1,
-      })
-      .populate("attendedEvents", "name");
 
     createdEvents.forEach((event) => {
       if (_id.toString() === event.creator._id.toString()) {
@@ -35,8 +25,6 @@ router.get("/my-profile", async (req, res, next) => {
     res.render("profile/my-profile.hbs", {
       currentUser,
       createdEvents,
-      favEvents,
-      attendedEvents,
     });
   } catch (error) {
     next(error);

@@ -24,6 +24,7 @@ router.post("/signup", async (req, res, next) => {
     res.render("auth/signup-form.hbs", {
       errorMessage: "Passwords do not match",
     });
+    return
   }
 
   // Password requirements are met
@@ -85,6 +86,7 @@ router.post("/login", async (req, res, next) => {
     res.render("auth/login-form.hbs", {
       errorMessage: "All fields are required",
     });
+    return
   }
 
   // Validate user
