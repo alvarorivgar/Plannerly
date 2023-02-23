@@ -166,6 +166,16 @@ nav a {
   font-size: 0.6em;
 }
 
+#attend {
+  background-color: #345051;
+  color: #f5f2ed;
+  padding: 8px 18px;
+  margin-top: 8px;
+  border-radius: 16px;
+  border: 0;
+  font-size: 1em;
+}
+
 /* FORMS */
 .form-container {
   display: flex;

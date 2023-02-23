@@ -5,17 +5,22 @@
   <div class="profile">
     <h1>{{foundUser.username}}</h1>
 
+    <p><b>Age: </b>{{foundUser.age}}</p>
+
+    <p><b>City: </b>{{foundUser.city}}</p>
+
+    <p><b>Bio: </b>{{foundUser.bio}}</p>
     {{#unless isUserOrganiser}}
       <p>Attended events:
         <ul>
-          {{#each attendedEvents.attendedEvents}}
+          {{#each foundUser.attendedEvents}}
             <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
           {{/each}}
         </ul>
       </p>
       <p>Favourite events:
         <ul>
-          {{#each favEvents.favouriteEvents}}
+          {{#each foundUser.favouriteEvents}}
             <li><a href="/events/{{this._id}}/details">{{this.name}}</a></li>
           {{/each}}
         </ul>

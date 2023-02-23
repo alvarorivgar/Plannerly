@@ -20,7 +20,7 @@
     <br />
     <label for="date">Date:</label>
     <br />
-    <input type="date" name="date" id="date" />
+    <input type="datetime-local" name="date" id="date" />
     <br />
     <label for="slots">Slots:</label>
     <br />
@@ -33,6 +33,10 @@
       </div>
     </div>
     <br />
+      <div id="errorMessage">
+        {{errorMessage}}
+      </div>
+    <br>
     <button>Update</button>
   </form>
 </div>

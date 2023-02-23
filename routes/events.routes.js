@@ -1,5 +1,5 @@
 const express = require("express");
-const { isOrganiser, isLoggedIn } = require("../middlewares/auth-middlewares");
+const { isOrganiser, isLoggedIn, isUser } = require("../middlewares/auth-middlewares");
 const router = express.Router();
 const Event = require("../models/Event.model");
 const User = require("../models/User.model");
@@ -76,17 +76,16 @@ router.get("/create", isLoggedIn, isOrganiser, (req, res, next) => {
 });
 
 // POST "events/create" => ruta para crear evento y redireccionar < ORGANISER ONLY
-router.post(
-  "/create",
-  isLoggedIn,
-  isOrganiser,
-  uploader.single("image"),
-  async (req, res, next) => {
+router.post("/create", isLoggedIn, isOrganiser, uploader.single("image"), async (req, res, next) => {
+
     let image;
+
     if (req.file !== undefined) {
       image = req.file.path;
     }
+
     try {
+
       let { name, price, date, location, description, slots } = req.body;
 
       await Event.create({
@@ -99,7 +98,9 @@ router.post(
         creator: req.session.activeUser._id,
         image,
       });
+
       res.redirect("/events/all");
+
     } catch (error) {
       next(error);
     }
@@ -109,22 +110,41 @@ router.post(
 // GET "events/:id/edit" => renderizar edit-form.hbs para editar evento > ORGANISER ONLY !!!! DELETE USER FROM ATTENDANT PENDING
 router.get("/:id/edit", isLoggedIn, isOrganiser, async (req, res, next) => {
   try {
-    const eventToEdit = await Event.findByIdAndUpdate(req.params.id, req.body);
+
+    const { name, price, location, date, slots } = req.body;
+
+    const eventToEdit = await Event.findByIdAndUpdate(req.params.id, {
+      name,
+      price,
+      location,
+      date,
+      slots,
+    });
+
     res.render("events/edit-form.hbs", eventToEdit);
+
   } catch (error) {
     next(error);
   }
 });
 
 // POST "events/:id/edit" => ruta para editar info de evento y rediceccionar < ORGANISER ONLY
-router.post(
-  "/:id/edit",
-  isLoggedIn,
-  isOrganiser,
-  uploader.single("image"),
-  async (req, res, next) => {
+router.post("/:id/edit", isLoggedIn, isOrganiser, uploader.single("image"), async (req, res, next) => {
+
     try {
+
+      const eventToUpdate = await Event.findById(req.params.id);
+
+      let image;
+
+      if (req.file !== undefined) {
+        image = req.file.path;
+      } else {
+        image = eventToUpdate.image;
+      }
+
       let { name, price, date, location, description, slots } = req.body;
+      
       await Event.findByIdAndUpdate(req.params.id, {
         name,
         price,
@@ -132,9 +152,11 @@ router.post(
         location,
         slots,
         description,
-        image: req.file.path,
+        image,
       });
+
       res.redirect(`/events/${req.params.id}/details`);
+
     } catch (error) {
       next(error);
     }
@@ -143,42 +165,55 @@ router.post(
 
 // POST "events/:id/delete" => ruta para borrar evento y redireccionar < ORGANISER ONLY
 router.post("/:id/delete", isLoggedIn, isOrganiser, async (req, res, next) => {
+
   try {
+
     await Event.findByIdAndDelete(req.params.id);
     res.redirect("/events/all");
+
   } catch (error) {
     next(error);
   }
 });
 
 //POST "events/:id/fav"
-router.post("/:id/fav", async (req, res, next) => {
+router.post("/:id/fav", isLoggedIn, isUser, async (req, res, next) => {
+
   try {
+
     const favEvent = await Event.findById(req.params.id);
+
     await User.findByIdAndUpdate(req.session.activeUser, {
       $push: { favouriteEvents: favEvent },
     });
+
     res.redirect(`/events/${req.params.id}/details`);
+
   } catch (error) {
     next(error);
   }
 });
 
 //POST "events/:id/attend"
-router.post("/:id/attend", async (req, res, next) => {
+router.post("/:id/attend", isLoggedIn, isUser, async (req, res, next) => {
+
   try {
+
     const attendEvent = await Event.findById(req.params.id);
+
     await User.findByIdAndUpdate(req.session.activeUser, {
       $push: { attendedEvents: attendEvent },
     });
+
     res.redirect(`/events/${req.params.id}/details`);
+
   } catch (error) {
     next(error);
   }
 });
 
 //POST "events/:id/kick-user"
-router.post("/:id/kick-user/:userId", async (req, res, next) => {
+router.post("/:id/kick-user/:userId", isLoggedIn, isOrganiser, async (req, res, next) => {
   try {
     // const event = Event.findById(req.params.id);
     await User.findByIdAndUpdate(req.params.userId, {

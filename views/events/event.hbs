@@ -10,20 +10,23 @@
   {{!-- USER --}}
   {{#unless isUserOrganiser}}
   <form action="/events/{{singleEvent._id}}/fav" method="post">
-    <button>Fav</button>
+    <button ><img class="icon" src="../../images/fav-btn.png" alt="fav"></button>
   </form>
   {{/unless}}
+  
 
   {{#unless isUserOrganiser}}
   {{#unless singleEvent.isFull}}
-  <form action="/events/{{singleEvent._id}}/attend" method="post">
-    <button>Attend</button>
+  <form  action="/events/{{singleEvent._id}}/attend" method="post">
+    <button id="attend">Attend</button>
   </form>
   {{/unless}}
   {{#if singleEvent.isFull}}
   <p>Event full</p>
   {{/if}}
   {{/unless}}
+
+
 
   {{!-- ORGANISER --}}
   {{#if isUserOrganiser}}
