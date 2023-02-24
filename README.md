@@ -23,7 +23,6 @@ A website to organise events for people by people.
 - **profile** - As a user I want to be able to see my attended/favourited events and as an organiser I want to be able to see a list of events I have organised
 - **profile comments** - As a user/organiser I want to see what others think about users and to be able to leave my review
 - **profile edit** - As a user I want to be able to add my personal details to my profile for others to see
-- 
 
 ## Backlog
 
@@ -197,14 +196,10 @@ date: Date
 
 ### Git
 
-The url to your repository and to your deployed project
-
 [Repository Link](https://github.com/alvarorivgar/Plannerly)
 
 [Deploy Link](https://plannerly.cyclic.app/)
 
 ### Slides
-
-The url to your presentation slides
 
 [Slides Link]()
