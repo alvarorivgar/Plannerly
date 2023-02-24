@@ -46,14 +46,11 @@ h2 {
   height: 80vh;
 }
 
-#logo {
-  width: 790px;
-}
 
 #home-btn {
   background-color: #345051;
   color: #f5f2ed;
-  padding: 13px;
+  padding: 20px;
   border-radius: 16px;
   border: 0;
   font-size: 1.5em;
