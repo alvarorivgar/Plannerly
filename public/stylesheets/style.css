@@ -46,10 +46,14 @@ h2 {
   height: 80vh;
 }
 
+#logo {
+  width: 790px;
+}
+
 #home-btn {
   background-color: #345051;
   color: #f5f2ed;
-  padding: 20px;
+  padding: 13px;
   border-radius: 16px;
   border: 0;
   font-size: 1.5em;
@@ -284,10 +288,6 @@ button:hover {
   justify-content: center;
   align-items: left;
   width: 50vw;
-}
-
-.profile ul {
-  /* display: flex; */
 }
 
 .profile li {
