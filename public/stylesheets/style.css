@@ -127,7 +127,7 @@ nav a {
   flex-grow: 0;
 }
 
-#event-container img {
+.event-img {
   border-radius: 30px;
   width: 480px;
   height: 250px;
