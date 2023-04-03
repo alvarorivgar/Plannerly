@@ -46,7 +46,6 @@ h2 {
   height: 80vh;
 }
 
-
 #home-btn {
   background-color: #345051;
   color: #f5f2ed;
@@ -99,6 +98,8 @@ nav a {
 #event-list img {
   border-radius: 30px;
   height: 250px;
+  width: 300px;
+  object-fit: cover;
 }
 
 .container {
@@ -128,6 +129,9 @@ nav a {
 
 #event-container img {
   border-radius: 30px;
+  width: 480px;
+  height: 250px;
+  object-fit: cover;
 }
 
 #event-container form li {
