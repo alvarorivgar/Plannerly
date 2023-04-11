@@ -294,11 +294,16 @@ button:hover {
 .profile li {
   list-style: none;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
 }
 
 .profile li a {
   text-decoration: none;
+}
+
+.btn-container button {
+  margin-left: 15px;
 }
 
 /* PUBLIC PROFILE */

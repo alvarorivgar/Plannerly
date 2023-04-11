@@ -1,9 +1,14 @@
 const express = require("express");
-const { isOrganiser, isLoggedIn, isUser } = require("../middlewares/auth-middlewares");
+const {
+  isOrganiser,
+  isLoggedIn,
+  isUser,
+} = require("../middlewares/auth-middlewares");
 const router = express.Router();
 const Event = require("../models/Event.model");
 const User = require("../models/User.model");
 const uploader = require("../middlewares/cloudinary");
+const { restart } = require("nodemon");
 
 // GET "events/all" => renderizar all-events.hbs con la lista de todos los eventos
 router.get("/all", async (req, res, next) => {
@@ -74,8 +79,12 @@ router.get("/create", isLoggedIn, isOrganiser, (req, res, next) => {
 });
 
 // POST "events/create" => ruta para crear evento y redireccionar < ORGANISER ONLY
-router.post("/create", isLoggedIn, isOrganiser, uploader.single("image"), async (req, res, next) => {
-
+router.post(
+  "/create",
+  isLoggedIn,
+  isOrganiser,
+  uploader.single("image"),
+  async (req, res, next) => {
     let image;
 
     if (req.file !== undefined) {
@@ -83,7 +92,6 @@ router.post("/create", isLoggedIn, isOrganiser, uploader.single("image"), async 
     }
 
     try {
-
       let { name, price, date, location, description, slots } = req.body;
 
       await Event.create({
@@ -98,7 +106,6 @@ router.post("/create", isLoggedIn, isOrganiser, uploader.single("image"), async 
       });
 
       res.redirect("/events/all");
-
     } catch (error) {
       next(error);
     }
@@ -108,7 +115,6 @@ router.post("/create", isLoggedIn, isOrganiser, uploader.single("image"), async 
 // GET "events/:id/edit" => renderizar edit-form.hbs para editar evento > ORGANISER ONLY !!!! DELETE USER FROM ATTENDANT PENDING
 router.get("/:id/edit", isLoggedIn, isOrganiser, async (req, res, next) => {
   try {
-
     const { name, price, location, date, slots } = req.body;
 
     const eventToEdit = await Event.findByIdAndUpdate(req.params.id, {
@@ -120,17 +126,19 @@ router.get("/:id/edit", isLoggedIn, isOrganiser, async (req, res, next) => {
     });
 
     res.render("events/edit-form.hbs", eventToEdit);
-
   } catch (error) {
     next(error);
   }
 });
 
 // POST "events/:id/edit" => ruta para editar info de evento y rediceccionar < ORGANISER ONLY
-router.post("/:id/edit", isLoggedIn, isOrganiser, uploader.single("image"), async (req, res, next) => {
-
+router.post(
+  "/:id/edit",
+  isLoggedIn,
+  isOrganiser,
+  uploader.single("image"),
+  async (req, res, next) => {
     try {
-
       const eventToUpdate = await Event.findById(req.params.id);
 
       let image;
@@ -142,7 +150,7 @@ router.post("/:id/edit", isLoggedIn, isOrganiser, uploader.single("image"), asyn
       }
 
       let { name, price, date, location, description, slots } = req.body;
-      
+
       await Event.findByIdAndUpdate(req.params.id, {
         name,
         price,
@@ -154,7 +162,6 @@ router.post("/:id/edit", isLoggedIn, isOrganiser, uploader.single("image"), asyn
       });
 
       res.redirect(`/events/${req.params.id}/details`);
-
     } catch (error) {
       next(error);
     }
@@ -163,12 +170,9 @@ router.post("/:id/edit", isLoggedIn, isOrganiser, uploader.single("image"), asyn
 
 // POST "events/:id/delete" => ruta para borrar evento y redireccionar < ORGANISER ONLY
 router.post("/:id/delete", isLoggedIn, isOrganiser, async (req, res, next) => {
-
   try {
-
     await Event.findByIdAndDelete(req.params.id);
     res.redirect("/events/all");
-
   } catch (error) {
     next(error);
   }
@@ -176,9 +180,8 @@ router.post("/:id/delete", isLoggedIn, isOrganiser, async (req, res, next) => {
 
 //POST "events/:id/fav"
 router.post("/:id/fav", isLoggedIn, isUser, async (req, res, next) => {
-
   try {
-
+    console.log("creating fav", req.params.id);
     const favEvent = await Event.findById(req.params.id);
 
     await User.findByIdAndUpdate(req.session.activeUser, {
@@ -186,7 +189,19 @@ router.post("/:id/fav", isLoggedIn, isUser, async (req, res, next) => {
     });
 
     res.redirect(`/events/${req.params.id}/details`);
+  } catch (error) {
+    next(error);
+  }
+});
 
+//POST "events/:id/fav/delete"
+router.post("/:id/fav/delete", isLoggedIn, isUser, async (req, res, next) => {
+  try {
+    await User.findByIdAndUpdate(req.session.activeUser, {
+      $pull: { favouriteEvents: req.params.id },
+    });
+
+    res.redirect("/profile/my-profile");
   } catch (error) {
     next(error);
   }
@@ -194,9 +209,7 @@ router.post("/:id/fav", isLoggedIn, isUser, async (req, res, next) => {
 
 //POST "events/:id/attend"
 router.post("/:id/attend", isLoggedIn, isUser, async (req, res, next) => {
-
   try {
-
     const attendEvent = await Event.findById(req.params.id);
 
     await User.findByIdAndUpdate(req.session.activeUser, {
@@ -204,23 +217,27 @@ router.post("/:id/attend", isLoggedIn, isUser, async (req, res, next) => {
     });
 
     res.redirect(`/events/${req.params.id}/details`);
-
   } catch (error) {
     next(error);
   }
 });
 
 //POST "events/:id/kick-user"
-router.post("/:id/kick-user/:userId", isLoggedIn, isOrganiser, async (req, res, next) => {
-  try {
-    // const event = Event.findById(req.params.id);
-    await User.findByIdAndUpdate(req.params.userId, {
-      $pullAll: { attendedEvents: [req.params.id] },
-    });
-    res.redirect(`/events/${req.params.id}/details`);
-  } catch (error) {
-    next(error);
+router.post(
+  "/:id/kick-user/:userId",
+  isLoggedIn,
+  isOrganiser,
+  async (req, res, next) => {
+    try {
+      // const event = Event.findById(req.params.id);
+      await User.findByIdAndUpdate(req.params.userId, {
+        $pullAll: { attendedEvents: [req.params.id] },
+      });
+      res.redirect(`/events/${req.params.id}/details`);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 module.exports = router;
